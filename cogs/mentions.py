@@ -14,13 +14,13 @@ class SendCog(commands.Cog):
 
         if message.author.bot:
             return
-
+        
         if "@here" in message.content or "@everyone" in message.content:
             return
 
         if message.reference is not None:
             return
-
+        
         if message.channel.id in [int(os.getenv('ALL_CHAT_CHANNEL')), int(os.getenv('TEST_CHANNEL'))]:
             for mentioned_user in message.mentions:
                 if mentioned_user.id == int(os.getenv('TEST_BOT_ID')):
@@ -46,14 +46,14 @@ class SendCog(commands.Cog):
         if len(reply_list) != 0:
             quote = "\n".join(reply_list)
             await message.reply(quote)
-
+        
         if len(file_list) != 0:
             for f in file_list:
                 await message.reply(file=f)
 
     async def _get_quote(self, id: str) -> Union[discord.File, str]:
         result = await retrieve_data(f'SELECT * FROM {os.getenv("MYSQL_QUOTE_TABLE")} WHERE member_id = "{id}";')
-
+        
         if len(result) == 0:
             return f'<@{os.getenv("BERD_ID")}> 沒有教我要怎樣應<@{id}>gok...'
         else:
@@ -61,7 +61,7 @@ class SendCog(commands.Cog):
 
             if str(quote).startswith("Attachment"):
                 file_name = "./attachments/" + str(quote).split("-")[1]
-
+                
                 with open(file_name, 'rb') as f:
                     attachment = discord.File(f)
                     return attachment
@@ -75,5 +75,5 @@ class SendCog(commands.Cog):
         return quote
 
 
-async def setup(bot: commands.Bot):
-    await bot.add_cog(SendCog(bot))
+def setup(bot: commands.Bot):
+    bot.add_cog(SendCog(bot))

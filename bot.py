@@ -1,5 +1,6 @@
 import discord, os, asyncio
-from discord.ext import commands, tasks
+from discord.ext import commands
+from discord.ext.commands.context import Context
 from dotenv import load_dotenv
 
 class Bot(commands.Bot):
@@ -13,12 +14,18 @@ class Bot(commands.Bot):
     async def on_member_join(self, member: discord.Member):
         print(f'Hello {member.name}')
 
-    async def load_cogs(self):
+    async def on_command_error(self, context: Context, exception: discord.DiscordException):
+        if isinstance(exception, commands.CommandNotFound):
+            return
+        
+        return await super().on_command_error(context, exception)
+
+    def load_cogs(self):
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
-                await self.load_extension(f'cogs.{filename[:-3]}')
+                self.load_extension(f'cogs.{filename[:-3]}')
 
-async def main():
+if __name__ == '__main__':
     # Load environmental variables
     load_dotenv()
 
@@ -26,11 +33,8 @@ async def main():
     print('Initiating Bot')
     bot = Bot()
 
-    async with bot:
-        # Load cogs
-        await bot.load_cogs()
+    # Load cogs
+    bot.load_cogs()
 
-        # Login
-        await bot.start(os.getenv('TEST_TOKEN'))
-
-asyncio.run(main())
+    # Login
+    bot.run(os.getenv('TEST_TOKEN'))
