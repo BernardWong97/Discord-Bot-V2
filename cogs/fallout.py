@@ -42,7 +42,7 @@ class NukeCodes(Cog):
                 title = data[i]
                 code = data[i + 1]
 
-                embed_message.add_field(name=f"__{title}__", value=f"**{code}**", inline=True)
+                embed_message.add_field(name=f"__{title}__", value=f"`{code}`", inline=True)
 
             message = await ctx.followup.send(embed=embed_message)
 
