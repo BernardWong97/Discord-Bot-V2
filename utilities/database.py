@@ -24,7 +24,7 @@ async def retrieve_data(query: str):
     except Error as e:
             raise ValueError(f"Error executing query: {e}")
 
-async def insert_data(query: str, value: tuple):
+async def commit_query(query: str, value: tuple):
     try:
         with mysql.connector.connect(**db_config) as conn:
             # print('Connected to MYSQL database')
