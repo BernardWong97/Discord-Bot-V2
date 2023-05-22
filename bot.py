@@ -1,4 +1,4 @@
-import discord, os, asyncio
+import discord, os
 from discord.ext import commands
 from discord.ext.commands.context import Context
 from dotenv import load_dotenv
@@ -21,9 +21,12 @@ class Bot(commands.Bot):
         return await super().on_command_error(context, exception)
 
     def load_cogs(self):
-        for filename in os.listdir('./cogs'):
-            if filename.endswith('.py'):
-                self.load_extension(f'cogs.{filename[:-3]}')
+        for sub_dir, _, files in os.walk('./cogs'):
+            for filename in files:
+                if filename.endswith('.py'):
+                    cog_name = os.path.splitext(filename)[0]
+                    sub_dir_name = sub_dir.split('/').pop()
+                    self.load_extension(f'cogs.{sub_dir_name}.{cog_name}')
 
 if __name__ == '__main__':
     # Load environmental variables

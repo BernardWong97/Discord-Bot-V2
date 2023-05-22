@@ -1,14 +1,15 @@
-import discord, os, random, io
-from database import retrieve_data
-from discord.ext import commands
+import os, random
+from utilities.database import retrieve_data
+from discord import Message, File
+from discord.ext.commands import Cog, Bot
 from typing import Union
 
-class SendCog(commands.Cog):
-    def __init__(self, bot: commands.Bot):
+class SendCog(Cog):
+    def __init__(self, bot: Bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_message(self, message: discord.Message):
+    @Cog.listener()
+    async def on_message(self, message: Message):
         reply_list = []
         file_list = []
 
@@ -51,7 +52,7 @@ class SendCog(commands.Cog):
             for f in file_list:
                 await message.reply(file=f)
 
-    async def _get_quote(self, id: str) -> Union[discord.File, str]:
+    async def _get_quote(self, id: str) -> Union[File, str]:
         result = await retrieve_data(f'SELECT * FROM {os.getenv("MYSQL_QUOTE_TABLE")} WHERE member_id = "{id}";')
         
         if len(result) == 0:
@@ -63,7 +64,7 @@ class SendCog(commands.Cog):
                 file_name = "./attachments/" + str(quote).split("-")[1]
                 
                 with open(file_name, 'rb') as f:
-                    attachment = discord.File(f)
+                    attachment = File(f)
                     return attachment
             else:
                 return quote
@@ -75,5 +76,5 @@ class SendCog(commands.Cog):
         return quote
 
 
-def setup(bot: commands.Bot):
+def setup(bot: Bot):
     bot.add_cog(SendCog(bot))

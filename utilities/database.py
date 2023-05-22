@@ -1,5 +1,8 @@
 import mysql.connector, os
 from mysql.connector import Error
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 db_config = {
     'user': os.getenv('MYSQL_USER'),
