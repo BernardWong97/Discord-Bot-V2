@@ -7,7 +7,7 @@ from utilities.database import retrieve_data
 
 
 time_zone = timezone(timedelta(hours=8), name='Asia/Kuala_Lumpur')
-task_time = time(hour=0, minute=0, second=0, tzinfo=time_zone)
+task_time = time(hour=0, minute=0, second=1, tzinfo=time_zone)
 
 class Birthday(Cog):
     def __init__(self, bot: Bot):

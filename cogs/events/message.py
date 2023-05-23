@@ -4,7 +4,7 @@ from discord import Message, File
 from discord.ext.commands import Cog, Bot
 from typing import Union
 
-class SendCog(Cog):
+class OnMessage(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
@@ -77,4 +77,4 @@ class SendCog(Cog):
 
 
 def setup(bot: Bot):
-    bot.add_cog(SendCog(bot))
+    bot.add_cog(OnMessage(bot))

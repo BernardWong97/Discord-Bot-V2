@@ -7,7 +7,7 @@ class Gif(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    @discord.slash_command(name="gif", description="Generate a random gif", guild_ids=[int(os.getenv('TEST_GUILD'))])
+    @discord.slash_command(name="gif", description="Generate a random gif", guild_ids=[int(os.getenv('TEST_GUILD'))], guild_only=True)
     async def gif(self, ctx: ApplicationContext, keyword: Option(str, description="The keyword of the gif", default="chicken")):
         keyword = urllib.parse.quote(keyword)
         url = f"https://g.tenor.com/v1/search?q={keyword}&key={os.getenv('TENOR_KEY')}&limit=10"

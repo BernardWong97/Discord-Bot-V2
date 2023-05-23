@@ -1,30 +1,12 @@
 import os
-from discord import DiscordException, Member, Intents
-from discord.ext.commands import Bot, CommandNotFound
-from discord.ext.commands.context import Context
+from discord import Intents
+from discord.ext.commands import Bot
 from dotenv import load_dotenv
-from utilities.members import fetch_members
 
 class Bot(Bot):
     def __init__(self):
         super().__init__(command_prefix="", intents=Intents.all())
         self.load_cogs()
-
-    async def on_ready(self):
-        print(f'Logged in as {self.user}!')
-        print(f'{self.user.name} is listening for Discord Messages!')
-
-        await fetch_members(self)
-
-    async def on_member_join(self, member: Member):
-        await fetch_members(self)
-        print(f'Hello {member.name}')
-
-    async def on_command_error(self, context: Context, exception: DiscordException):
-        if isinstance(exception, CommandNotFound):
-            return
-        
-        return await super().on_command_error(context, exception)
 
     def load_cogs(self):
         for sub_dir, _, files in os.walk('./cogs'):

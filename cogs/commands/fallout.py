@@ -10,7 +10,7 @@ class NukeCodes(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    @discord.slash_command(name="nuke_codes", description="Retrieve this weeks's Fallout 76 nuke codes", guild_ids=[int(os.getenv('TEST_GUILD'))])
+    @discord.slash_command(name="nuke_codes", description="Retrieve this weeks's Fallout 76 nuke codes", guild_ids=[int(os.getenv('TEST_GUILD'))], guild_only=True)
     async def gif(self, ctx: ApplicationContext):
         await ctx.defer()
 
