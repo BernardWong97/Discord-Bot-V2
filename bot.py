@@ -9,11 +9,11 @@ class Bot(Bot):
         self.load_cogs()
 
     def load_cogs(self):
-        for sub_dir, _, files in os.walk('./cogs'):
+        for sub_dir, _, files in os.walk(os.path.join('.', 'cogs')):
             for filename in files:
                 if filename.endswith('.py'):
                     cog_name = os.path.splitext(filename)[0]
-                    sub_dir_name = sub_dir.split('/').pop()
+                    sub_dir_name = sub_dir.split(os.sep).pop()
                     self.load_extension(f'cogs.{sub_dir_name}.{cog_name}')
 
 if __name__ == '__main__':
