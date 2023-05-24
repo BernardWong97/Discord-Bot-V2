@@ -5,7 +5,7 @@ from enum import Enum, auto
 
 class BaseEnum():
     @classmethod
-    def get_value(clazz: object, name: str) -> str:
+    def get_value(clazz: Enum, name: str) -> str:
         for member in clazz:
             if name and member.name == name.upper():
                 if isinstance(member.value, int):
@@ -15,7 +15,7 @@ class BaseEnum():
         return "Unknown"
 
     @classmethod
-    def get_choices(clazz: object) -> list[OptionChoice]:
+    def get_choices(clazz: Enum) -> list[OptionChoice]:
         return [OptionChoice(name=clazz.get_value(member.name)) for member in clazz]
 
 class MediaType(BaseEnum, Enum):
