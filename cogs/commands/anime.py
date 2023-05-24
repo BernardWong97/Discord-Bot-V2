@@ -1,6 +1,6 @@
 import os, discord, requests, html2markdown, urllib.parse
-from datetime import datetime, timezone, timedelta
 from discord import Embed, ApplicationContext, Option
+from discord.ext.pages import Paginator
 from discord.ext.commands import Cog, Bot
 from utilities.enums import MediaType, MediaFormat, MediaSeason, MediaSource, MediaStatus, Country
 
@@ -15,7 +15,7 @@ class Anime(Cog):
                          ctx: ApplicationContext, 
                          search: Option(str, description="Filter by search query", required=False),
                          season: Option(str, description="Filter by the season the anime was released in", choices=MediaSeason.get_choices(), required=False),
-                         season_year: Option(int, description="The year of the season. Requires season argument", required=False),
+                         season_year: Option(int, description="The year of the season. Requires season argument", required=False, max_value=2100, min_value=1940),
                          format: Option(str, description="Filter by the anime's format", choices=MediaFormat.get_choices(), required=False),
                          status: Option(str, description="Filter by the anime's current release status", choices=MediaStatus.get_choices(), required=False),
                          country: Option(str, description="Filter by the anime's country of origin (ISO 3166-1 alpha-2)", required=False),
@@ -23,33 +23,30 @@ class Anime(Cog):
                          genre: Option(str, description="Filter by anime's genre", required=False),
                          source: Option(str, description="Filter by the anime's format", choices=MediaSource.get_choices(), required=False),
                          ):
-        # await ctx.defer()
+        await ctx.defer()
 
-        # data = await self.retrieve_anime_list(search)
+        if season_year is not None and season is None:
+            await ctx.respond("Please select a season if you are filtering season year.", ephemeral=True)
 
-        # if "errors" in data:
-        #     print(data)
-        #     await ctx.followup.send("There's something wrong with the command")
-        # else:
-        #     media_list = data["media"]
+        data = await self.retrieve_anime_list(search=search, season=season, seasonYear=season_year, format=format, status=status, countryOfOrigin=country, isAdult=nsfw, genre=genre, source=source)
 
-        #     embed_list = self._generate_embeds(search, media_list)
+        if "errors" in data:
+            print(data)
+            await ctx.followup.send("There's something wrong with the command")
+        else:
+            media_list = data["media"]
 
-        #     paginator = Paginator(pages=embed_list)
-        #     await paginator.respond(ctx.interaction, ephemeral=False)
-        await ctx.respond(season + " " + str(season_year))
+            embed_list = self._generate_embeds(search, media_list)
 
-    async def retrieve_anime_list(self, search: str):
+            paginator = Paginator(pages=embed_list)
+            await paginator.respond(ctx.interaction, ephemeral=False)
+
+    async def retrieve_anime_list(self, **kwargs):
+        # TODO Populate Arguments
+
         query = '''
         query ($page: Int, $perPage: Int, $search: String, $mediaType: MediaType) {
             Page (page: $page, perPage: $perPage) {
-                pageInfo {
-                    total
-                    perPage
-                    currentPage
-                    lastPage
-                    hasNextPage
-                }
                 media(search: $search, type: $mediaType) {
                     format
                     status(version: 2)
@@ -101,9 +98,9 @@ class Anime(Cog):
                 }
             }
         }
-        '''
+        ''' % ()
         variables = {
-            'search': search,
+            'search': "Oshi No Ko",
             'mediaType': MediaType.ANIME.name,
             'page': 1,
             'perPage': 10
