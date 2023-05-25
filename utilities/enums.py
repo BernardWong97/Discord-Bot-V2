@@ -18,10 +18,6 @@ class BaseEnum():
     def get_choices(clazz: Enum) -> list[OptionChoice]:
         return [OptionChoice(name=clazz.get_value(member.name)) for member in clazz]
 
-class MediaType(BaseEnum, Enum):
-    ANIME = auto()
-    MANGA = auto()
-
 class MediaFormat(BaseEnum, Enum):
     TV = "TV"
     TV_SHORT = "TV Short"
