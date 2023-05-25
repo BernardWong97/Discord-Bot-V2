@@ -82,3 +82,15 @@ class Country():
         if country is None:
             return "Unknown"
         return country.name
+    
+class RequestMethod(BaseEnum, Enum):
+    POST = auto()
+    GET = auto()
+    
+class Game(BaseEnum, Enum):
+    GENSHIN = auto()
+    STARRAIL = auto()
+
+class Language(BaseEnum, Enum):
+    ENGLISH = "en-us"
+    CHINESE = "zh-tw"
