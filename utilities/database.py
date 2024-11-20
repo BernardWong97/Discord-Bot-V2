@@ -1,14 +1,12 @@
 import mysql.connector, os
 from mysql.connector import Error
-from dotenv import load_dotenv
-
-load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 db_config = {
     'user': os.getenv('MYSQL_USER'),
     'password': os.getenv('MYSQL_PW'),
     'host': os.getenv('MYSQL_HOST'),
-    'database': os.getenv('MYSQL_DB')
+    'database': os.getenv('MYSQL_DB'),
+    'port': os.getenv('MYSQL_PORT')
 }
 
 async def retrieve_data(query: str):

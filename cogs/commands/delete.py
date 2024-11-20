@@ -6,7 +6,7 @@ class Delete(Cog):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    @discord.slash_command(name="delete", description="Delete messages", guild_ids=[int(os.getenv('TEST_GUILD'))], guild_only=True)
+    @discord.slash_command(name="delete", description="Delete messages", guild_ids=[int(os.getenv('GUILD'))])
     async def gif(self, ctx: ApplicationContext, message_count: Option(int, description="The number of messages to be deleted", min_value=1, max_value=100)):
         await ctx.defer()
         deleted_messages = await ctx.channel.purge(limit=message_count + 1, bulk=True)

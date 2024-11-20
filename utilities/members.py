@@ -1,13 +1,13 @@
 import os
-from discord import Guild
 from discord.ext.commands import Bot
 from utilities.database import retrieve_data, commit_query
 
 async def fetch_members(bot: Bot):
-    guild = bot.get_guild(int(os.getenv("TEST_GUILD")))
+    print('Fetching Members...')
+    guild = bot.get_guild(int(os.getenv("GUILD")))
     user_dict = {}
 
-    query = f'SELECT * FROM {os.getenv("MYSQL_MEMBER_TABLE")} WHERE id IN ('
+    query = f'SELECT id, username FROM {os.getenv("MYSQL_MEMBER_TABLE")} WHERE id IN ('
 
     notInTableList = []
 
@@ -22,7 +22,7 @@ async def fetch_members(bot: Bot):
     result = await retrieve_data(query)
 
     for row in result:
-        user_id, _, _ = row
+        user_id, _ = row
 
         notInTableList = [user for user in notInTableList if int(user.id) != int(user_id)]
 

@@ -5,7 +5,6 @@ from discord.ext import tasks
 from discord.ext.commands import Bot, Cog
 from utilities.database import retrieve_data
 
-
 time_zone = timezone(timedelta(hours=8), name='Asia/Kuala_Lumpur')
 task_time = time(hour=0, minute=0, second=0, tzinfo=time_zone)
 
@@ -14,16 +13,19 @@ class Birthday(Cog):
         self.bot = bot
         self.wish_birthday.start()
 
+    def cog_unload(self):
+        self.wish_birthday.cancel()
+
     @tasks.loop(count=None, time=task_time)
     async def wish_birthday(self):
         today = datetime.now(time_zone).strftime('%m-%d')
 
-        result = await retrieve_data(f"SELECT * FROM {os.getenv('MYSQL_MEMBER_TABLE')} WHERE dob LIKE '%{today}'")
+        result = await retrieve_data(f"SELECT id FROM {os.getenv('MYSQL_MEMBER_TABLE')} WHERE dob LIKE '%{today}'")
 
-        channel = self.bot.get_channel(int(os.getenv('TEST_CHANNEL')))
+        channel = self.bot.get_channel(int(os.getenv('ALL_CHAT_CHANNEL')))
 
         for row in result:
-            id, _, _ = row
+            id = row[0]
 
             user = channel.guild.get_member(int(id))
 

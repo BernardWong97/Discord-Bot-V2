@@ -14,7 +14,7 @@ class Manga(Cog):
         self.API_URL = 'https://graphql.anilist.co'
         self.WEB_URL = 'https://anilist.co'
 
-    @discord.slash_command(name="manga", description="List search manga", guild_ids=[int(os.getenv('TEST_GUILD'))], guild_only=True)
+    @discord.slash_command(name="manga", description="List search manga", guild_ids=[int(os.getenv('GUILD'))])
     async def list_manga(self, 
                          ctx: ApplicationContext,
                          format: Option(str, description="Filter by the manga's format", choices=MediaFormat.get_choices(), required=False),
