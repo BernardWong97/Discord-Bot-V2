@@ -1,12 +1,12 @@
 import os
-from datetime import time, timezone, timedelta, datetime
+from datetime import time, datetime
 from discord import Embed, File
 from discord.ext import tasks
-from discord.ext.commands import Bot, Cog
-from utilities.database import retrieve_data
+from discord.ext.commands import Cog
+from bot.bot_instance import Bot
+from config import TIMEZONE, MEMBER_TABLE, ALL_CHAT_CHANNEL
 
-time_zone = timezone(timedelta(hours=8), name='Asia/Kuala_Lumpur')
-task_time = time(hour=0, minute=0, second=0, tzinfo=time_zone)
+task_time = time(hour=0, minute=0, second=0, tzinfo=TIMEZONE)
 
 class Birthday(Cog):
     def __init__(self, bot: Bot):
@@ -18,11 +18,11 @@ class Birthday(Cog):
 
     @tasks.loop(count=None, time=task_time)
     async def wish_birthday(self):
-        today = datetime.now(time_zone).strftime('%m-%d')
+        today = datetime.now(TIMEZONE).strftime('%m-%d')
 
-        result = await retrieve_data(f"SELECT id FROM {os.getenv('MYSQL_MEMBER_TABLE')} WHERE dob LIKE '%{today}'")
+        result = await self.bot.database.query(f"SELECT id FROM {MEMBER_TABLE} WHERE dob LIKE '%{today}'")
 
-        channel = self.bot.get_channel(int(os.getenv('ALL_CHAT_CHANNEL')))
+        channel = self.bot.get_channel(ALL_CHAT_CHANNEL)
 
         for row in result:
             id = row[0]
@@ -44,6 +44,10 @@ class Birthday(Cog):
                 attachment = File(f, filename="birthday.gif")
 
                 await channel.send(f"<@{id}>", embed=embed_message, file=attachment)
+
+    @wish_birthday.before_loop
+    async def before_wish_birthday(self):
+        await self.bot.wait_until_ready()
         
 def setup(bot: Bot):
     bot.add_cog(Birthday(bot))

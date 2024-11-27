@@ -1,7 +1,8 @@
 import pycountry
 from discord import OptionChoice
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from enum import Enum, auto
+from config import TIMEZONE
 
 class BaseEnum():
     @classmethod
@@ -45,8 +46,7 @@ class MediaSeason(BaseEnum, Enum):
 
     @staticmethod
     def get_current_season() -> str:
-        tz = timezone(timedelta(hours=8), name='Asia/Kuala_Lumpur')
-        current_month = datetime.now(tz).month
+        current_month = datetime.now(TIMEZONE).month
 
         if current_month in [12, 1, 2]:
             return MediaSeason.get_value(MediaSeason.WINTER.name)

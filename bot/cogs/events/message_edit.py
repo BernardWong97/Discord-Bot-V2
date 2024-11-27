@@ -1,7 +1,8 @@
 import os
-from utilities.emojis import get_emoji_data
 from discord import Message
-from discord.ext.commands import Cog, Bot
+from discord.ext.commands import Cog
+from bot.bot_instance import Bot
+from config import OWNER_ID
 
 class OnMessageUpdate(Cog):
     def __init__(self, bot: Bot):
@@ -12,9 +13,9 @@ class OnMessageUpdate(Cog):
         if before.author.bot:
             return
         
-        test_channel = self.bot.get_channel(int(os.getenv('TEST_CHANNEL')))
+        owner = await self.bot.get_or_fetch_user(OWNER_ID)
 
-        await test_channel.send(f"<@{after.author.id}> edited a message at <#{after.channel.id}>:\nBefore: `{before.content}`\nAfter: `{after.content}`")
+        await owner.send(f"<@{after.author.id}> edited a message at <#{after.channel.id}>:\nBefore: `{before.content}`\nAfter: `{after.content}`")
 
 def setup(bot: Bot):
     bot.add_cog(OnMessageUpdate(bot))

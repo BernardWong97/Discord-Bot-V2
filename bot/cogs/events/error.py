@@ -1,5 +1,6 @@
 from discord import DiscordException
-from discord.ext.commands import Cog, Bot, Context, CommandNotFound
+from discord.ext.commands import Cog, Context, CommandNotFound
+from bot.bot_instance import Bot
 
 class OnCommandError(Cog):
     def __init__(self, bot: Bot):
