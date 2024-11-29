@@ -1,5 +1,5 @@
 from loguru import logger
-from bot.utilities import members, emojis, reminders
+from bot.utilities import members, reminders
 from discord.ext.commands import Cog
 from bot.bot_instance import Bot
 
@@ -14,8 +14,6 @@ class OnReady(Cog):
         await self.bot.connect_database()
 
         await members.fetch_members(self.bot)
-
-        await emojis.fetch_emojis(self.bot)
 
         await reminders.fetch_reminders(self.bot)
 
