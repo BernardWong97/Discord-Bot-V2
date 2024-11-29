@@ -19,6 +19,8 @@ class OnReady(Cog):
 
         await reminders.fetch_reminders(self.bot)
 
+        await self.bot.init_pokedex()
+
         logger.success(f'{self.bot.user.name} is listening for Discord Messages!')
 
 def setup(bot: Bot):
