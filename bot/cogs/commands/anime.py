@@ -25,7 +25,7 @@ class Anime(Cog):
                          country: Option(str, description="Filter by the anime's country of origin (ISO 3166-1 alpha-2)", required=False),
                          nsfw: Option(bool, description="Filter by if the anime's intended for 18+ adult audiences", required=False),
                          genre: Option(str, description="Filter by anime's genre", required=False),
-                         source: Option(str, description="Filter by the anime's format", choices=MediaSource.get_choices(), required=False),
+                         source: Option(str, description="Filter by the anime's source", choices=MediaSource.get_choices(), required=False),
                          month: Option(int, description="Filter by the month the anime was released in", required=False, choices=[OptionChoice(name=month_name, value=i) for i, month_name in enumerate(calendar.month_name) if i != 0]),
                          year: Option(int, description="Filter by the year the anime was released in", required=False, max_value=2100, min_value=1940),
                          season: Option(str, description="Filter by the season the anime was released in", choices=MediaSeason.get_choices(), required=False),

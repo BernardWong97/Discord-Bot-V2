@@ -1,6 +1,4 @@
-import os
-from datetime import time, datetime
-from discord import Embed, File
+from datetime import time
 from discord.ext import tasks
 from discord.ext.commands import Cog
 from bot.bot_instance import Bot

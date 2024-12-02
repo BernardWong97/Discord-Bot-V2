@@ -1,4 +1,3 @@
-import os
 from datetime import datetime, timezone, timedelta
 from loguru import logger
 from bot.bot_instance import Bot

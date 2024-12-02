@@ -1,4 +1,3 @@
-import os
 from discord import Message
 from discord.ext.commands import Cog
 from bot.bot_instance import Bot

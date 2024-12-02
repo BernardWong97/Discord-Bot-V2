@@ -25,7 +25,7 @@ class PokedexService:
         logger.info("Fetching sets...")
 
         for set in self.series.sets:
-            set_full = await self.sdk.set.get(set.id)
+            set_full = await set.get_full_set()
             self.sets.append(set_full)
 
         logger.success("Sets fetched successfully!")

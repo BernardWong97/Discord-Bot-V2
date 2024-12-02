@@ -1,4 +1,3 @@
-import os
 from datetime import time, datetime
 from discord import Embed, File
 from discord.ext import tasks

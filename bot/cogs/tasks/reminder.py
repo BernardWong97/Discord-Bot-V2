@@ -1,5 +1,4 @@
 import asyncio
-from loguru import logger
 from datetime import timedelta, datetime
 from discord.ext import tasks
 from discord.ext.commands import Cog

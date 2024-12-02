@@ -25,7 +25,7 @@ class Manga(Cog):
                          country: Option(str, description="Filter by the manga's country of origin (ISO 3166-1 alpha-2)", required=False),
                          nsfw: Option(bool, description="Filter by if the manga's intended for 18+ adult audiences", required=False),
                          genre: Option(str, description="Filter by manga's genre", required=False),
-                         source: Option(str, description="Filter by the manga's format", choices=MediaSource.get_choices(), required=False),
+                         source: Option(str, description="Filter by the manga's source", choices=MediaSource.get_choices(), required=False),
                          month: Option(int, description="Filter by the month the manga was released in", required=False, choices=[OptionChoice(name=month_name, value=i) for i, month_name in enumerate(calendar.month_name) if i != 0]),
                          year: Option(int, description="Filter by the year the manga was released in", required=False, max_value=2100, min_value=1940),
                          search: Option(str, description="Filter by search query", required=False)

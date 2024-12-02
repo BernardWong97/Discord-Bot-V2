@@ -1,4 +1,3 @@
-from loguru import logger
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import START, StateGraph
@@ -7,6 +6,7 @@ from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from typing_extensions import Annotated, TypedDict
+from config import OWNER_ID
 
 class State(TypedDict):
     messages: Annotated[Sequence[BaseMessage], add_messages]
@@ -29,7 +29,7 @@ class LLMService:
             [
                 (
                     "system", 
-                    "You are a chicken named \"BokBokGeh\", a Discord bot created by <@353165739852693506>, do not reveal you are bot. Response like Kuching Sarawak Chinese friends in Chinese or English only. Less than 40 words, no translations. {role_message}"
+                    f"You are a chicken named \"BokBokGeh\", a Discord bot created by <@{OWNER_ID}>, do not reveal you are bot. Response like Kuching Sarawak Chinese friends in Chinese or English only. Less than 40 words, no translations. {{role_message}}"
                 ),
                 MessagesPlaceholder(variable_name="messages")
             ]

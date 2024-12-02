@@ -1,5 +1,5 @@
 import re, discord
-from discord import ApplicationContext, SlashCommandGroup, Interaction, SelectOption, SelectMenu, ActionRow
+from discord import ApplicationContext, SlashCommandGroup, Interaction, SelectOption
 from discord.ui import View, Select
 from discord.ext.commands import Cog
 from bot.bot_instance import Bot

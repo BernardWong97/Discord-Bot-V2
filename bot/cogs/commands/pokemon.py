@@ -1,4 +1,3 @@
-import re
 from typing import cast
 from typing import List
 from discord import Embed, Option, ApplicationContext, utils, AutocompleteContext, SlashCommandGroup
@@ -104,7 +103,8 @@ class Pokemon(Cog):
     @card_sub_group.command(name="get", description="Retrieve a Pokémon TCG Pocket Card", guild_ids=[GUILD])
     async def get_card(self, 
                       ctx: ApplicationContext, 
-                      set: Option(str, description="Filter by set", autocomplete=utils.basic_autocomplete(_get_set_filter), required=True)
+                      set: Option(str, description="Filter by set", autocomplete=utils.basic_autocomplete(_get_set_filter), required=True),
+                      card: Option(str, description="Filter by card", autocomplete=utils.basic_autocomplete(_get_card_filter), required=True)
                       ):
         await ctx.defer()
 
@@ -113,20 +113,12 @@ class Pokemon(Cog):
             return
         
         set_full = next((iter_set for iter_set in self.bot.pokedex.sets if iter_set.id == set), None)
+
+        card = next((iter_card for iter_card in set_full.cards if iter_card.id == card), None)
         
-        embed_list = self._generate_card_embeds(set_full)
+        embed = self._generate_card_embed(card)
 
-        if len(embed_list) > 0:
-            paginator = Paginator(pages=embed_list, timeout=600)
-            await paginator.respond(ctx.interaction, ephemeral=False)
-        else:
-            no_item_embed = Embed(
-                title = "No Pokémon TCG Pocket Cards found",
-                color = 0x0000FF,
-                url = "https://www.tcgdex.net/database/Pok%C3%A9mon-TCG-Pocket/" + set_full.name.replace(" ", "-")
-            ).set_author(name = "Pokémon TCG Pocket", icon_url=set_full.get_logo_url(Extension.PNG))
-
-            await ctx.followup.send(embed=no_item_embed, wait=True)
+        await ctx.followup.send(embed=embed, wait=True)
 
     @card_sub_group.command(name="id", description="Retrieve a Pokémon TCG Pocket Card by ID", guild_ids=[GUILD])
     async def get_card_by_id(self, 
