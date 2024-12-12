@@ -335,9 +335,9 @@ Project Link: [GitHub Repository][github-bot]
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/BernardWong97/Discord-Bot-V2/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[license-shield]: https://img.shields.io/github/license/BernardWong97/Discord-Bot-V2?style=for-the-badge
+[license-url]: https://github.com/BernardWong97/Discord-Bot-V2/blob/main/LICENSE
+[linkedin-shield]: https://img.shields.io/badge/LinkedIn-World?style=for-the-badge&logo=linkedin&color=0A66C2
 [linkedin-url]: https://www.linkedin.com/in/bernard-wong-404231152/
 [product-screenshot]: attachments/profile_picture.jpeg
 [github-bot]: https://github.com/BernardWong97/Discord-Bot-V2
